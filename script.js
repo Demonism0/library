@@ -95,11 +95,21 @@ showButton.addEventListener('click', () => {
 cancelButton.addEventListener('click', () => {
     dialog.close();
 })
-cfmButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    if (!newBookTitle.value || !newBookAuthor.value || !newBookPages.value) {
-        alert('You need to fill in all the boxes!');
-        return;
+cfmButton.addEventListener('click', () => {
+    if (!newBookTitle.value) {
+        newBookTitle.setCustomValidity('Please enter a book title');
+    } else {
+        newBookTitle.setCustomValidity('');
+    }
+    if (!newBookAuthor.value) {
+        newBookAuthor.setCustomValidity('Please enter the book author');
+    } else {
+        newBookAuthor.setCustomValidity('');
+    }
+    if (!newBookPages.value) {
+        newBookPages.setCustomValidity('Please enter the number of pages');
+    } else {
+        newBookPages.setCustomValidity('');
     }
     let isBookRead;
     if (newBookRead.checked) {
@@ -107,10 +117,12 @@ cfmButton.addEventListener('click', (event) => {
     } else {
         isBookRead = false;
     }
-    new Book(newBookTitle.value, newBookAuthor.value,
-        Number(newBookPages.value), isBookRead);
-    dialog.close();
-    newBookTitle.value = '';
-    newBookAuthor.value = '';
-    newBookPages.value = '';
+
+    if (newBookTitle.value && newBookAuthor.value && newBookPages.value) {
+        new Book(newBookTitle.value, newBookAuthor.value,
+            Number(newBookPages.value), isBookRead);
+        newBookTitle.value = '';
+        newBookAuthor.value = '';
+        newBookPages.value = '';
+    }
 })
